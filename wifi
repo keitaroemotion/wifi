@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+#echo networksetup -setairportnetwork en0 Weeyble-5G akiba2525
+
+from subprocess import call
+import sys
+from sys        import stdout
+
+def get_connections():
+    f = open("/usr/local/etc/wifi/connections", "r")
+    return map(lambda l: l.split(), f.readlines())
+
+def get_connection(connections):
+    i = 0
+    for line in connections:
+        i = i + 1
+        print("{}: {}".format(i, line[0]))
+    stdout.write("[choose number]: ")
+    input = raw_input()
+    if input == "":
+        print("you need input."); sys.exit()
+        
+    input = int(input)
+    if input < 1 or input - 1 > len(connections):
+        print("index out of range."); sys.exit()
+        
+    return connections[input - 1]
+
+ssid_password = get_connection(get_connections()) 
+
+ssid     = ssid_password[1]
+password = ssid_password[2]
+command  = ["networksetup", "-setairportnetwork", "en0", ssid, password]
+
+call(command)

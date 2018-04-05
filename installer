@@ -1,0 +1,3 @@
+mkdir /usr/local/etc/wifi
+touch /usr/local/etc/wifi/connections
+cp    wifi /usr/local/bin
